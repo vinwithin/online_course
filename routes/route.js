@@ -12,11 +12,11 @@ router.get('/login', (req, res) => {
     res.render("login", error = false)
 })
 router.get('/register', (req, res) => {
-    res.render("register", error = false)
+    res.render("register", error = 0)
 })
 
 router.post("/register", register);
-router.get("/masuk", login);
+router.post("/masuk", login);
   
 
 module.exports = router;

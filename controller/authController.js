@@ -25,24 +25,21 @@ const register = async(req, res) => {
 
 const login = async(req, res) => {
     // try{
+        const { email, password } = req.body 
         const user = await UserModel.findOne({
-            
-                email: req.body.email
-            
+                email: email 
         })
         if(!user) return res.render('login', {error: "Akun Belum Terdaftar"});
-        const matchPassword = await bcrypt.compare(req.body.password, user.password)
+        const matchPassword = await bcrypt.compare(password, user.password)
         if(!matchPassword) return res.render('login', {error: 'Password salah'});
-        const id = user._id
-        const userId = id.split(': ')[1];
-        console.log(userId)
+        const userId = user._id
         const name = user.name;
-        const email = user.email;
+        const emailUser = user.email;
         const role = user.role;
-        jwt.sign({userId, name, email, role }, process.env.PRIVATE_ACCESS_TOKEN, {
+        jwt.sign({userId, name, emailUser, role }, process.env.PRIVATE_ACCESS_TOKEN, {
             expiresIn: '60s'
         })
-        const refreshToken = jwt.sign({userId, name, email, role }, process.env.REFRESH_ACCESS_TOKEN, {
+        const refreshToken = jwt.sign({userId, name, emailUser, role }, process.env.REFRESH_ACCESS_TOKEN, {
             expiresIn: '1d'
         })
         await UserModel.updateOne({ _id: userId }, { refresh_token: refreshToken });
