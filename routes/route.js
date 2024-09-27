@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { register, login } = require('../controller/authController')
+const { register, login, logout } = require('../controller/authController')
+const refreshToken = require('../controller/refreshToken')
+const { verifyToken } = require('../middleware/verify_token')
+const { dashboard } = require('../controller/dashboardController')
 
 
-router.get('/', (req, res) => {
-    res.render("index")
-})
+router.get('/', verifyToken, dashboard)
 
 router.get('/login', (req, res) => {
     res.render("login", error = false)
@@ -16,7 +17,9 @@ router.get('/register', (req, res) => {
 })
 
 router.post("/register", register);
-router.post("/masuk", login);
+router.post("/login", login);
+router.get("/logout", logout);
+router.get('/token', refreshToken)
   
 
 module.exports = router;

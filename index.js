@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser');
 const db = require('./config/mongodb.js')
 const UserModel = require('./model/User.js')
 const router = require('./routes/route')
@@ -17,6 +18,7 @@ db.once('open', () => console.log('database connected'));
 app.set("views", "./view" )
 app.set('view engine', 'ejs');
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(router)
 

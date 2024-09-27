@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Hello world</h1>
-</body>
+    <script>
+      axios.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+          if (error.response.status === 401 || error.response.status === 403) {
+            try {
+              const { data } = await axios.post("/refresh-token");
+              localStorage.setItem("accessToken", data.accessToken);
+              error.config.headers["Authorization"] =
+                "Bearer " + data.accessToken;
+              return axios(error.config);
+            } catch (err) {
+              // Handle refresh token expiration
+              console.log("Refresh token expired");
+            }
+          }
+          return Promise.reject(error);
+        }
+      );
+    </script>
+  </body>
 </html>

@@ -16,7 +16,11 @@ const User = new mongoose.Schema({
     role: {
         type: String,
         required: true
+    },
+    refresh_token:{
+        type: String
     }
+
 });
 
 UserModel = mongoose.model('users', User);

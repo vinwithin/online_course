@@ -25,33 +25,49 @@ const register = async(req, res) => {
 
 const login = async(req, res) => {
     // try{
-        const { email, password } = req.body 
         const user = await UserModel.findOne({
-                email: email 
+                email: req.body.email 
         })
         if(!user) return res.render('login', {error: "Akun Belum Terdaftar"});
-        const matchPassword = await bcrypt.compare(password, user.password)
+        const matchPassword = await bcrypt.compare(req.body.password, user.password)
         if(!matchPassword) return res.render('login', {error: 'Password salah'});
         const userId = user._id
         const name = user.name;
-        const emailUser = user.email;
+        const email = user.email;
         const role = user.role;
-        jwt.sign({userId, name, emailUser, role }, process.env.PRIVATE_ACCESS_TOKEN, {
+        accessToken = jwt.sign({userId, name, email, role }, process.env.PRIVATE_ACCESS_TOKEN, {
             expiresIn: '60s'
         })
-        const refreshToken = jwt.sign({userId, name, emailUser, role }, process.env.REFRESH_ACCESS_TOKEN, {
+        const refreshToken = jwt.sign({userId, name, email, role }, process.env.REFRESH_ACCESS_TOKEN, {
             expiresIn: '1d'
         })
         await UserModel.updateOne({ _id: userId }, { refresh_token: refreshToken });
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            maxAge: 60 * 1000 // 60 detik dalam milidetik
+          });
         res.cookie('refresh_token', refreshToken,{
             httpOnly : true,
             maxAge : 24 * 60 * 60 * 1000
         })
+
         res.redirect('/')
     // }catch(error){
     //     res.render('login', {error: "Gagal Melakukan Login"})
     // }
 }
+const logout = async(req, res) => {
+    const refresToken = req.cookies.refresh_token
+    if(!refresToken) return res.sendStatus(204)
+    const user = await UserModel.findOne({
+        refresh_token: refresToken
+    })
+    if(!user) return res.sendStatus(204)
+    const userId = user._id
+    await UserModel.update({_id: userId},{refresh_token: null})
+    res.clearCookie('refresh_token')
+    return res.sendStatus(200).json({message:"Berhasil Logout"})
+}
 
 
-module.exports = {register, login}
+module.exports = {register, login, logout}
