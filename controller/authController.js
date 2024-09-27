@@ -64,9 +64,9 @@ const logout = async(req, res) => {
     })
     if(!user) return res.sendStatus(204)
     const userId = user._id
-    await UserModel.update({_id: userId},{refresh_token: null})
+    await UserModel.updateOne({_id: userId},{refresh_token: null})
     res.clearCookie('refresh_token')
-    return res.sendStatus(200).json({message:"Berhasil Logout"})
+    return res.redirect('/')
 }
 
 
