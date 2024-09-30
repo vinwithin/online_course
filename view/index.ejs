@@ -7,25 +7,55 @@
   </head>
   <body>
     <h1>Hello world</h1>
+    <input id="exp" type="text" value="<%= exp %>" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      axios.interceptors.response.use(
-        (response) => response,
-        async (error) => {
-          if (error.response.status === 401 || error.response.status === 403) {
-            try {
-              const { data } = await axios.post("/refresh-token");
-              localStorage.setItem("accessToken", data.accessToken);
-              error.config.headers["Authorization"] =
-                "Bearer " + data.accessToken;
-              return axios(error.config);
-            } catch (err) {
-              // Handle refresh token expiration
-              console.log("Refresh token expired");
+
+      (async () => {
+        let expired = document.getElementById("exp").value
+
+        try {
+            // Kirim permintaan untuk mendapatkan token baru
+            const response = await fetch("http://localhost:3000/token", {
+              method: 'GET',
+              credentials: 'include' // Ini penting untuk mengirim cookies
+            });
+    
+            // Periksa apakah respons berhasil
+            if (!response.ok) {
+                throw new Error("Failed to refresh token");
             }
-          }
-          return Promise.reject(error);
+    
+            // Ambil data dari respons
+            const data = await response.json();
+            
+    
+            console.log("New access token:", data.accessToken);
+        } catch (error) {
+            console.error("Error refreshing token:", error);
         }
-      );
+
+       
+        axios.interceptors.request.use(
+          async (config) => {
+            const currendDate = new Date();
+            if (expired * 1000 < currendDate.getTime()) {
+              const response = await fetch("http://localhost:3000/token", {
+                method: 'GET',
+                credentials: 'include' // Ini penting untuk mengirim cookies
+              });
+            }
+            return config;
+          },
+          (error) => {
+            return Promise.reject(error);
+          }
+        );
+    })();
+
+      
+      
     </script>
   </body>
 </html>

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { register, login, logout } = require('../controller/authController')
-const refreshToken = require('../controller/refreshToken')
+const { refreshToken } = require('../controller/refreshToken')
 const { verifyToken } = require('../middleware/verify_token')
 const { dashboard } = require('../controller/dashboardController')
 

@@ -17,17 +17,20 @@ const refreshToken = async(req, res) => {
             const name = user.name
             const email = user.email
             const role = user.role
-            const accessToken =  jwt.sign({userId, name, email, role}, process.env.PRIVATE_ACCESS_TOKEN, {
+            const accessToken = jwt.sign({userId, name, email, role}, process.env.PRIVATE_ACCESS_TOKEN, {
                 expiresIn: '60s'
             })
-            res.cookie('accessToken', accessToken, {
-                httpOnly: true,
-                maxAge: 60 * 1000 // 60 detik dalam milidetik
-              });
-            // res.json({ accessToken })
+            
+            res.cookie('access_token', accessToken,{
+                httpOnly : true,
+                maxAge :60 * 1000
+            })
+            res.json({ accessToken })
+            // return res.json({ accessToken });
         }); 
+        
     }catch(error){
         console.log(error)
     }
 }
-module.exports = refreshToken
+module.exports = { refreshToken }

@@ -42,19 +42,15 @@ const login = async(req, res) => {
             expiresIn: '1d'
         })
         await UserModel.updateOne({ _id: userId }, { refresh_token: refreshToken });
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            maxAge: 60 * 1000 // 60 detik dalam milidetik
-          });
+        res.cookie('access_token', accessToken,{
+            httpOnly : true,
+            maxAge :90 * 1000
+        })
         res.cookie('refresh_token', refreshToken,{
             httpOnly : true,
             maxAge : 24 * 60 * 60 * 1000
         })
-
         res.redirect('/')
-    // }catch(error){
-    //     res.render('login', {error: "Gagal Melakukan Login"})
-    // }
 }
 const logout = async(req, res) => {
     const refresToken = req.cookies.refresh_token
@@ -66,7 +62,7 @@ const logout = async(req, res) => {
     const userId = user._id
     await UserModel.updateOne({_id: userId},{refresh_token: null})
     res.clearCookie('refresh_token')
-    return res.redirect('/')
+    return res.redirect('/login')
 }
 
 
