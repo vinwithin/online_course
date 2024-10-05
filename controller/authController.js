@@ -44,7 +44,7 @@ const login = async(req, res) => {
         await UserModel.updateOne({ _id: userId }, { refresh_token: refreshToken });
         res.cookie('access_token', accessToken,{
             httpOnly : true,
-            maxAge :90 * 1000
+            maxAge :24 * 60 * 60 * 1000
         })
         res.cookie('refresh_token', refreshToken,{
             httpOnly : true,
