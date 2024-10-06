@@ -15,7 +15,9 @@ db.on('error', (error) => console.log(error));
 db.once('open', () => console.log('database connected'));
 
 
-app.set("views", "./view" )
+// app.set("views", "./view" )
+app.use(express.static('public'));
+app.set('views', path.join(__dirname, 'view'));
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(cookieParser());
