@@ -1,6 +1,20 @@
+const Joi = require("joi");
 const CourseModel = require("../model/Course")
+
+
+const courseSchema = Joi.object({
+  title: Joi.string().min(3).max(100).required(),
+  description: Joi.string().min(10).required(),
+  price: Joi.number().greater(0).required(),
+  category_id: Joi.number().integer().required(),
+});
+
 const create = async (req, res) => {
   const { title, description, price, category_id } = req.body;
+  const { error } = courseSchema.validate({title, description, price, category_id});
+  if (error) {
+    return res.status(400).json({message: error.details[0].message})
+  }
   try {
     await CourseModel.create({
       title,
@@ -15,5 +29,7 @@ const create = async (req, res) => {
   }
  
 };
+
+
 
 module.exports = {create}

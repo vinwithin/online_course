@@ -50,7 +50,7 @@ const login = async(req, res) => {
             httpOnly : true,
             maxAge : 24 * 60 * 60 * 1000
         })
-        res.redirect('/')
+        res.redirect('/admin')
 }
 const logout = async(req, res) => {
     const refresToken = req.cookies.refresh_token

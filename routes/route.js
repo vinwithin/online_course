@@ -40,10 +40,8 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-router.get("/", verifyToken, dashboard);
-router.get("/dashboard", async(req, res) => {
-    res.render("admin/dashboard");
-});
+router.get("/admin", verifyToken, dashboard);
+
 
 router.get("/login", (req, res) => {
   res.render("login", (error = false));

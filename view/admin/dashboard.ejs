@@ -54,35 +54,30 @@
                   <table class="table table-hover my-0">
                     <thead>
                       <tr>
-                        <th>Page</th>
-                        <th class="d-none d-xl-table-cell">Position</th>
-                        <th class="d-none d-xl-table-cell">Domain Authority</th>
-                        <th class="d-none d-xl-table-cell">Web SSL</th>
-                        <th class="d-none d-xl-table-cell">Speed</th>
-                        <th>Backlinks</th>
-                        <th class="d-none d-md-table-cell">Linking Domain</th>
+                        <th>Title</th>
+                        <th class="d-none d-xl-table-cell">Description</th>
+                        <th class="d-none d-xl-table-cell">Image</th>
+                        <th class="d-none d-xl-table-cell">Price</th>
+                        <th class="d-none d-xl-table-cell">Category</th>
                       </tr>
                     </thead>
                     <tbody>
-                 
+                      <% courses.forEach(function(course, index) { %>
                       <tr>
-                        <td></td>
+                        <td> <%= index + 1 %> </td>
                         <td>
-                          <span class="badge bg-success"></span>
+                          <span class="badge bg-success"><%= course.title %></span>
                         </td>
-                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"><%= course.description %></td>
                         <td class="d-none d-xl-table-cell">
-                         
+                          <img src="/uploads/<%= course.image %>" alt="<%= course.title %>" width="100">
                         </td>
-                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"><%= course.price %></td>
                         <td class="d-none d-xl-table-cell">
-                         
-                        </td>
-                        <td class="d-none d-md-table-cell">
-                          
+                          <%= course.category_id %>
                         </td>
                       </tr>
-                      
+                      <% }) %>
                     </tbody>
                   </table>
                 </div>

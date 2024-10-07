@@ -1,8 +1,9 @@
 const refreshToken = require("./refreshToken");
+const CourseModel = require('../model/Course')
 
 const dashboard = async (req, res) => {
-    const expired = req.exp
-    res.render('index', {exp: expired})
+    const courses = CourseModel.find();
+    res.render('admin/dashboard', {courses})
 }
 
 module.exports = { dashboard }
