@@ -4,7 +4,7 @@ const Categories = require("../model/Category")
 
 const dashboard = async (req, res) => {
     try {
-        const courses = await CourseModel.find();
+        const courses = await CourseModel.find().populate('category_id');
         const categories = await Categories.find();
         res.render('admin/dashboard', { courses: courses, categories : categories, name: req.name });
       } catch (error) {

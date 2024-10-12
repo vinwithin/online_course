@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Categories = require("../model/Category")
 
 const Course = new mongoose.Schema({
     title: {
@@ -18,8 +19,9 @@ const Course = new mongoose.Schema({
         required: true
     },
     category_id: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: Categories,  // This refers to the Categories model
+        required: true,
     },
 
 });
