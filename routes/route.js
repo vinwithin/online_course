@@ -50,10 +50,10 @@ router.get("/register", (req, res) => {
   res.render("register", (error = 0));
 });
 
-router.post("/course/create", verifyToken, upload.single('file'), create)
+router.post("/admin/course/create", verifyToken, upload.single('file'), create)
 router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", logout);
-router.get("/token", refreshToken);
+// router.get("/token", refreshToken);
 
 module.exports = router;

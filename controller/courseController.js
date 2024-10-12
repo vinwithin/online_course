@@ -23,7 +23,7 @@ const create = async (req, res) => {
       price,
       category_id,
     });
-    res.status(200).send({ msg: "Succesfully adding course"});
+    res.redirect('/admin/dashboard');
   } catch (error) {
     return res.status(500).json({ message: "Error creating product" });
   }
