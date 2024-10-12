@@ -6,7 +6,7 @@ const courseSchema = Joi.object({
   title: Joi.string().min(3).max(100).required(),
   description: Joi.string().min(10).required(),
   price: Joi.number().greater(0).required(),
-  category_id: Joi.number().integer().required(),
+  category_id: Joi.string().max(100).required(),
 });
 
 const create = async (req, res) => {
