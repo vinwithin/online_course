@@ -10,11 +10,15 @@ const courseSchema = Joi.object({
 });
 
 const create = async (req, res) => {
+
   const { title, description, price, category_id } = req.body;
   const { error } = courseSchema.validate({title, description, price, category_id});
+
   if (error) {
-    return res.status(400).json({message: error.details[0].message})
+    req.flash('error', error.details[0].message);
+    return res.redirect('/admin/dashboard');
   }
+
   try {
     await CourseModel.create({
       title,
@@ -23,13 +27,27 @@ const create = async (req, res) => {
       price,
       category_id,
     });
-    res.redirect('/admin/dashboard');
+    req.flash('success', 'Course successfully created!');
+    res.redirect('/admin');
   } catch (error) {
-    return res.status(500).json({ message: "Error creating product" });
+    req.flash('error', 'Error while creating course');
+    res.redirect('/admin');
   }
  
 };
 
+const destroy = async(req, res) => {
+  try{
+    const courseId = req.params.id;
+    await CourseModel.findByIdAndDelete(courseId);
+    req.flash('success', 'Course successfully deleted');
+    res.redirect('/admin');
+  }catch (err) {
+    req.flash('error', 'Error while deleting course');
+    res.redirect('/admin');
+  }
+};
 
 
-module.exports = {create}
+
+module.exports = {create, destroy}

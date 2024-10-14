@@ -45,6 +45,18 @@
         <main class="content">
           <div class="container-fluid p-0">
             <h1 class="h3 mb-3"> Dashboard</h1>
+            <% if (success_message != '') { %>
+              <div class="alert alert-success">
+                <%= success_message %>
+              </div>
+            <% } %>
+            
+            <!-- Display error message -->
+            <% if (error_message != '') { %>
+              <div class="alert alert-danger">
+                <%= error_message %>
+              </div>
+            <% } %>
             <div class="row">
               <div class="col-12 col-lg-12 col-xxl-12 d-flex">
                 <div class="card flex-fill">
@@ -61,7 +73,7 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <form action="admin/course/create" method="POST" enctype="multipart/form-data">
+                      <form action="/admin/course/create" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
                           <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -125,11 +137,11 @@
                         </td>
                         <td>
                           <a href="/admin/berita/detail/{{$post->slug}}" class="badge bg-info"><i class="fa-regular fa-eye"></i></a>
-                          <a href="/admin/berita/edit-berita/{{$post->slug}}" class="badge bg-warning"><i
+                          <a href="/admin/course/edit/<%= course._id %>" class="badge bg-warning"><i
                                   class="fa-regular fa-pen-to-square"></i></a>
-                          <a href="" class="badge bg-danger" data-bs-toggle="modal"
-                              data-bs-target="#exampleModal{{$post->slug}}"><i class="fa-solid fa-trash-can"></i></a>
-                          <div class="modal fade" id="exampleModal{{$post->slug}}" tabindex="-1" aria-labelledby="exampleModalLabel{{$post->id}}"
+                          <a href="/admin/course/delete/<%= course._id %>" class="badge bg-danger" data-bs-toggle="modal"
+                              data-bs-target="#exampleModal<%= course._id %>"><i class="fa-solid fa-trash-can"></i></a>
+                          <div class="modal fade" id="exampleModal<%= course._id %>" tabindex="-1" aria-labelledby="exampleModalLabel<%= course._id %>"
                               aria-hidden="true">
                               <div class="modal-dialog">
                                   <div class="modal-content">
@@ -142,10 +154,13 @@
                                           Apakah anda yakin menghapus berita ini?
                                       </div>
                                       <div class="modal-footer">
+                                        <form action="/admin/course/delete/<%= course._id %>" method="POST" >
                                           <button type="button" class="btn btn-secondary"
                                               data-bs-dismiss="modal">Tidak</button>
-                                          <a href="/admin/berita/delete/{{$post->slug}}" class="btn btn-primary">Iya</a>
-                                      </div>
+                                          <input type="hidden" name="_method" value="DELETE">
+                                          <button type="submit" class="btn btn-primary">Iya</button>
+                                        </form>
+                                        </div>
                                   </div>
                               </div>
                           </div>

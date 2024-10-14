@@ -6,7 +6,7 @@ const { register, login, logout } = require("../controller/authController");
 const { refreshToken } = require("../controller/refreshToken");
 const { verifyToken } = require("../middleware/verify_token");
 const { dashboard } = require("../controller/dashboardController");
-const { create } = require("../controller/courseController")
+const { create, destroy } = require("../controller/courseController")
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -51,6 +51,10 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/admin/course/create", verifyToken, upload.single('file'), create)
+router.post('/admin/course/delete/:id', destroy)
+
+
+
 router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", logout);
