@@ -61,6 +61,7 @@ const edit = async(req, res) => {
 }
 
 const update = async(req, res) => {
+  console.log(req.body);
   const { title, description, price, category_id } = req.body;
   const { error } = courseSchema.validate({title, description, price, category_id});
   const courseId = req.params.id;
@@ -83,7 +84,7 @@ const update = async(req, res) => {
     res.redirect('/admin');
   } catch (error) {
     req.flash('error', 'Error while creating course');
-    res.redirect('/admin');
+    res.redirect(`/admin/course/edit/${courseId}`);
   }
 }
 

@@ -82,7 +82,7 @@
                         <div class="mb-3">
                         <p>Category</p>
                         <select class="form-select" aria-label="Select category" name="category_id">
-                            <option selected><%= courses.category_id.name %></option>
+                            <option value="<%= courses.category_id._id %>" selected><%= courses.category_id.name %></option>
                             <% categories.forEach(function(category, index) { %>
                                 <option value="<%= category._id %>"><%= category.name %></option>
                             <% }) %>
