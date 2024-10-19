@@ -61,10 +61,10 @@ const edit = async(req, res) => {
 }
 
 const update = async(req, res) => {
-  const courseId = req.params.id;
-  const existingImage = await CourseModel.findById(courseId).image;
   const { title, description, price, category_id } = req.body;
   const { error } = courseSchema.validate({title, description, price, category_id});
+  const courseId = req.params.id;
+  const existingImage = await CourseModel.findById(courseId).image;
 
   if (error) {
     req.flash('error', error.details[0].message);

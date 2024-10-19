@@ -60,39 +60,39 @@
             <div class="row">
               <div class="col-12 col-lg-12 col-xxl-12 d-flex">
                 <div class="card flex-fill">
-                
-                <form action="/admin/course/update/<%= courses._id %>" method="POST" enctype="multipart/form-data">
-                    
-                      <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="<%= courses.title %>">
-                      </div>
-                      <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" name="description" value="<%= courses.description %>">
-                      </div>
-                      <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="file">
-                      </div>
-                      <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" value="<%= courses.price %>">
-                      </div>
-                      <p>Category</p>
-                      <select class="form-select" aria-label="Select category" name="category_id">
-                        <option selected><%= courses.category_id.name %></option>
-                        <% categories.forEach(function(category, index) { %>
-                            <option value="<%= category._id %>"><%= category.name %></option>
-                        <% }) %>
-                      </select>
-                      
+                <div class="card p-4 ">
+                    <form action="/admin/course/update/<%= courses._id %>" method="POST" enctype="multipart/form-data">
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= courses.title %>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" name="description" value="<%= courses.description %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="image" name="file">
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" name="price" value="<%= courses.price %>">
+                        </div>
+                        <div class="mb-3">
+                        <p>Category</p>
+                        <select class="form-select" aria-label="Select category" name="category_id">
+                            <option selected><%= courses.category_id.name %></option>
+                            <% categories.forEach(function(category, index) { %>
+                                <option value="<%= category._id %>"><%= category.name %></option>
+                            <% }) %>
+                        </select>
+                        </div>
+                        <a href="/admin" class="btn btn-secondary">Close</a>
+                        <button type="submit" class="btn btn-primary">Submit</button>
             
-                    
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-         
-                </form>
+                    </form>
+                </div>
               
                  
                 </div>

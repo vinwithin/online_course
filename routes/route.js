@@ -52,8 +52,8 @@ router.get("/register", (req, res) => {
 
 router.post("/admin/course/create", verifyToken, upload.single('file'), create)
 router.get("/admin/course/edit/:id", verifyToken, edit)
-router.post("/admin/course/update/:id", verifyToken, update)
-router.post('/admin/course/delete/:id', destroy)
+router.post("/admin/course/update/:id", verifyToken, upload.single('file'), update)
+router.post("/admin/course/delete/:id", verifyToken, destroy)
 
 
 
